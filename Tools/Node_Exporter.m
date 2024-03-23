@@ -42,3 +42,6 @@ sudo systemctl enable node_exporter
 sudo systemctl start node_exporter
 
 sudo systemctl status node_exporter
+
+
+### After this go to Prometheus file for next steps for making connectivity
