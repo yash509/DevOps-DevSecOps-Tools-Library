@@ -56,3 +56,38 @@ sudo systemctl enable prometheus
 sudo systemctl start prometheus
 
 sudo systemctl status prometheus
+
+
+
+#### After Node-Exporter Installation follow these below steps
+
+cd /etc/prometheus
+
+vi prometheus.yml
+{{{add this script: 
+
+----
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'node_exporter'
+    static_configs:
+      - targets: ['localhost:9100']
+
+  - job_name: 'jenkins'
+    metrics_path: '/prometheus'
+    static_configs:
+      - targets: ['<your-jenkins-ip>:<your-jenkins-port>']
+      
+  - job_name: 'app' 
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['node-exporter-IP:9100']
+----
+
+Script End}}}
+
+promtool check config /etc/prometheus/prometheus.yml
+
+curl -X POST http://localhost:9090/-/reload
