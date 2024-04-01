@@ -5,7 +5,8 @@ A library for the installation of various tools for the DevOps and DevSecOps Wor
 
 # Kubernetes Setup on EC2 Server
 
-## aws eks update-kubeconfig --name <CLUSTER NAME> --region <CLUSTER REGION>  aws eks update-kubeconfig --name EKS_CLOUD --region ap-south-1
+## aws eks update-kubeconfig --name <CLUSTER NAME> --region <CLUSTER REGION> 
+# aws eks update-kubeconfig --name EKS_CLOUD --region ap-south-1
 
 # kubectl get nodes
 
