@@ -31,3 +31,6 @@ scrape_configs:
       - target_label: __address__
         replacement: <change-monitoring-ip-here>:9115  # The blackbox exporter's real hostname:port.
 ---
+
+
+# 7587 code for Grafana Dashboard
