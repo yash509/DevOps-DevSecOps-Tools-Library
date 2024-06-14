@@ -2,10 +2,10 @@ sudo useradd --system --no-create-home --shell /bin/false blackbox_exporter
 
 wget https://github.com/prometheus/blackbox_exporter/releases/download/v0.25.0/blackbox_exporter-0.25.0.linux-amd64.tar.gz
 
-tar -xvf blackbox_exporter-0.24.0.linux-amd64.tar.gz
+tar -xvf blackbox_exporter-0.25.0.linux-amd64.tar.gz
 
 // do manually
-sudo cd blackbox_exporter-0.24.0.linux-amd64.tar.gz
+sudo cd blackbox_exporter-0.25.0.linux-amd64.tar.gz
 
 ./blackbox_exporter
 
