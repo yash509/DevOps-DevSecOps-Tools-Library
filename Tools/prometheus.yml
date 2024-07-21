@@ -22,7 +22,8 @@ scrape_configs:
       module: [http_2xx]  # Look for a HTTP 200 response.
     static_configs:
       - targets:
-        - http://prometheus.io    # Target to probe with http.
+        - http://prometheus.io  # Target to probe with http.
+        - https://prometheus.io  # Target to probe with http.
         - http://app-running-ip-&-port-here # For Example:- 13.224.76.88:8080 or kubernetes port eg:- 30119 # Target to probe with http on port 8080. 
     relabel_configs:
       - source_labels: [__address__]
