@@ -16,6 +16,10 @@ scrape_configs:
     static_configs:
       - targets: ['node-exporter-IP:9100']
 
+  - job_name: 'cAdvisor'
+    static_configs:
+      - targets: ['<change-monioring-IP-here>:8080']
+      
   - job_name: 'blackbox'
     metrics_path: /probe
     params:
