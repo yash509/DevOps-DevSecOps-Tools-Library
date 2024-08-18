@@ -99,6 +99,11 @@ vi prometheus.yml -> 1. In this file, under the "rules_file" section edit the co
                      2. Uncomment the thing written under the "alerting -> targets" as " - <monitoring-IP>:9093 "
                      3. Add the "Job" under the scrape_configs 
 
+alerting:
+ alertmanagers:
+  - static_configs:
+    - targets: ['localhost:9093']
+
 -------------------------------------------------------------------------------------------------------------------------------------------
 
 # Go to Alert Manager Folder on server edit the "alertmanager.yml" file:
@@ -138,6 +143,8 @@ inhibit_rules:
 # Then go to Alert Manager folder and start the Alert Manager using the command:
 
 ./alertmanager &
+OR
+./alertmanager --config.file=alertmanager.yml &
 
 -- now we can access the alert manager on port 9093 followed by monitoring server's IP "monitoring-IP:9093"
 
