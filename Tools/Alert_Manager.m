@@ -110,6 +110,7 @@ alerting:
 
 1. vi alertmanger.yml -> remove the pre-existing content and add the below new content  
 
+---
 route:
   group_by:
     - alertname
@@ -117,21 +118,19 @@ route:
   group_interval: 5m
   repeat_interval: 1h
   receiver: email-notifications
-
 receivers:
   - name: email-notifications
     email_configs:
       - to: clouddevopshunter@gmail.com
-        from: monitoring@ccd.com
+        from: test@gmail.com
         smarthost: smtp.gmail.com:587
         auth_username: clouddevopshunter@gmail.com
         auth_identity: clouddevopshunter@gmail.com
-        auth_password: "bdmq omqh vvkk zoqx"  
+        auth_password: bdmq omqh vvkk zoqx
         send_resolved: true
-
 inhibit_rules:
-  - source_match: null
-    severity: critical
+  - source_match:
+      severity: critical
     target_match:
       severity: warning
       equal:
