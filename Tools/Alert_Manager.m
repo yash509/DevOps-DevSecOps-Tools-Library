@@ -126,7 +126,7 @@ receivers:
         smarthost: smtp.gmail.com:587
         auth_username: clouddevopshunter@gmail.com
         auth_identity: clouddevopshunter@gmail.com
-        auth_password: bdmq omqh vvkk zoqx   #The auth_password we can get from google app passwords
+        auth_password: "bdmq omqh vvkk zoqx"  
         send_resolved: true
 
 inhibit_rules:
