@@ -26,7 +26,7 @@ groups:
         annotations:
           summary: "Endpoint {{ $labels.instance }} down"
           description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 1 minute."
-
+          
       - alert: PrometheusJobMissing
         expr: absent(up{job="prometheus"})
         for: 0m
@@ -35,7 +35,16 @@ groups:
         annotations:
           summary: Prometheus job missing (instance {{ $labels.instance }})
           description: "A Prometheus job has disappeared\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
-
+          
+      - alert: PrometheusTargetMissing
+        expr: up == 0
+        for: 0m
+        labels:
+          severity: critical
+        annotations:
+          summary: Prometheus target missing (instance {{ $labels.instance }})
+          description: "A Prometheus target has disappeared. An exporter might be crashed.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+          
       - alert: PrometheusAllTargetsMissing
         expr: sum by (job) (up) == 0
         for: 0m
@@ -44,7 +53,16 @@ groups:
         annotations:
           summary: Prometheus all targets missing (instance {{ $labels.instance }})
           description: "A Prometheus job does not have living target anymore.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
-      
+          
+      - alert: PrometheusAlertmanagerJobMissing
+        expr: absent(up{job="alertmanager"})
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: Prometheus AlertManager job missing (instance {{ $labels.instance }})
+          description: "A Prometheus AlertManager job has disappeared\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+          
       - alert: WebsiteDown
         expr: probe_success == 0 # Expression to detect website down
         for: 1m
@@ -53,7 +71,7 @@ groups:
         annotations:
           description: The website at {{ $labels.instance }} is down.
           summary: Website Down
- 
+          
       - alert: HostOutOfMemory
         expr: node_memory_MemAvailable / node_memory_MemTotal * 100 < 25 #Expression to detect low memory
         for: 5m
@@ -62,7 +80,7 @@ groups:
         annotations:
           summary: "Host out of memory (instance {{ $labels.instance }})"
           description: "Node memory is filling up (< 25% left)\n VALUE = {{$value }}\n LABELS: {{ $labels }}"
- 
+          
       - alert: HostOutOfDiskSpace
         expr: (node_filesystem_avail{mountpoint="/"} * 100) / node_filesystem_size{mountpoint="/"} < 50 # Expression to detect low disk space
         for: 1s
@@ -71,7 +89,7 @@ groups:
         annotations:
           summary: "Host out of disk space (instance {{ $labels.instance }})"
           description: "Disk is almost full (< 50% left)\n VALUE = {{ $value }}\n LABELS: {{ $labels }}"
- 
+          
       - alert: HostHighCpuLoad
         expr: (sum by (instance)(irate(node_cpu{job="node_exporter_metrics",mode="idle"}[5m]))) > 80 #Expression to detect high CPU load
         for: 5m
@@ -80,7 +98,7 @@ groups:
         annotations:
           summary: "Host high CPU load (instance {{ $labels.instance }})"
           description: "CPU load is > 80%\n VALUE = {{ $value }}\n LABELS:{{ $labels }}"
- 
+          
       - alert: ServiceUnavailable
         expr: up{job="node_exporter"} == 0 # Expression to detect service unavailability
         for: 2m
@@ -89,7 +107,7 @@ groups:
         annotations:
           summary: "Service Unavailable (instance {{ $labels.instance }})"
           description: "The service {{ $labels.job }} is not available\n VALUE = {{ $value }}\n LABELS: {{ $labels }}"
- 
+          
       - alert: HighMemoryUsage
         expr: (node_memory_Active / node_memory_MemTotal) * 100 > 90 #Expression to detect high memory usage
         for: 10m
@@ -98,7 +116,7 @@ groups:
         annotations:
           summary: "High Memory Usage (instance {{ $labels.instance }})"
           description: "Memory usage is > 90%\n VALUE = {{ $value }}\n LABELS: {{ $labels }}"
- 
+          
       - alert: FileSystemFull
         expr: (node_filesystem_avail / node_filesystem_size) * 100 < 10 #Expression to detect file system almost full
         for: 5m
@@ -107,16 +125,16 @@ groups:
         annotations:
           summary: "File System Almost Full (instance {{ $labels.instance}})"
           description: "File system has < 10% free space\n VALUE = {{ $value }}\n LABELS: {{ $labels }}"
-
-       - alert: BlackboxProbeFailed
-         expr: probe_success == 0
-         for: 0m
-         labels:
-           severity: critical
-         annotations:
-           summary: Blackbox probe failed (instance {{ $labels.instance }})
-           description: "Probe failed\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
-
+          
+      - alert: BlackboxProbeFailed
+        expr: probe_success == 0
+        for: 0m
+        labels:
+          severity: critical
+        annotations:
+          summary: Blackbox probe failed (instance {{ $labels.instance }})
+          description: "Probe failed\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+          
         # This rule can be very noisy in dynamic infra with legitimate container start/stop/deployment.
       - alert: ContainerKilled
         expr: time() - container_last_seen > 60
@@ -126,7 +144,7 @@ groups:
         annotations:
           summary: Container killed (instance {{ $labels.instance }})
           description: "A container has disappeared\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
-
+          
       - alert: ContainerAbsent
         expr: absent(container_last_seen)
         for: 5m
@@ -136,10 +154,6 @@ groups:
           summary: Container absent (instance {{ $labels.instance }})
           description: "A container is absent for 5 min\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
       
-
-      
-      
-
 
 -------------------------------------------------------------------------------------------------------------------------------------------
 
