@@ -26,7 +26,25 @@ groups:
         annotations:
           summary: "Endpoint {{ $labels.instance }} down"
           description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 1 minute."
- 
+
+      - alert: PrometheusJobMissing
+        expr: absent(up{job="prometheus"})
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: Prometheus job missing (instance {{ $labels.instance }})
+          description: "A Prometheus job has disappeared\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+      - alert: PrometheusAllTargetsMissing
+        expr: sum by (job) (up) == 0
+        for: 0m
+        labels:
+          severity: critical
+        annotations:
+          summary: Prometheus all targets missing (instance {{ $labels.instance }})
+          description: "A Prometheus job does not have living target anymore.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+      
       - alert: WebsiteDown
         expr: probe_success == 0 # Expression to detect website down
         for: 1m
@@ -89,6 +107,38 @@ groups:
         annotations:
           summary: "File System Almost Full (instance {{ $labels.instance}})"
           description: "File system has < 10% free space\n VALUE = {{ $value }}\n LABELS: {{ $labels }}"
+
+       - alert: BlackboxProbeFailed
+         expr: probe_success == 0
+         for: 0m
+         labels:
+           severity: critical
+         annotations:
+           summary: Blackbox probe failed (instance {{ $labels.instance }})
+           description: "Probe failed\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+        # This rule can be very noisy in dynamic infra with legitimate container start/stop/deployment.
+      - alert: ContainerKilled
+        expr: time() - container_last_seen > 60
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: Container killed (instance {{ $labels.instance }})
+          description: "A container has disappeared\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+      - alert: ContainerAbsent
+        expr: absent(container_last_seen)
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: Container absent (instance {{ $labels.instance }})
+          description: "A container is absent for 5 min\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+      
+
+      
+      
 
 
 -------------------------------------------------------------------------------------------------------------------------------------------
