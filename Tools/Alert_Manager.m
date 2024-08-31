@@ -116,7 +116,34 @@ groups:
         annotations:
           summary: "High Memory Usage (instance {{ $labels.instance }})"
           description: "Memory usage is > 90%\n VALUE = {{ $value }}\n LABELS: {{ $labels }}"
+
+      - alert: HostMemoryUnderMemoryPressure
+        expr: (rate(node_vmstat_pgmajfault[1m]) > 1000) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: Host memory under memory pressure (instance {{ $labels.instance }})
+          description: "The node is under heavy memory pressure. High rate of major page faults\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
           
+      - alert: HostCpuHighIowait
+        expr: (avg by (instance) (rate(node_cpu_seconds_total{mode="iowait"}[5m])) * 100 > 10) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: Host CPU high iowait (instance {{ $labels.instance }})
+          description: "CPU iowait > 10%. A high iowait means that you are disk or network bound.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+     
+      - alert: HostOutOfInodes
+        expr: (node_filesystem_files_free{fstype!="msdosfs"} / node_filesystem_files{fstype!="msdosfs"} * 100 < 10 and ON (instance, device, mountpoint) node_filesystem_readonly == 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: Host out of inodes (instance {{ $labels.instance }})
+          description: "Disk is almost running out of available inodes (< 10% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}
+      
       - alert: FileSystemFull
         expr: (node_filesystem_avail / node_filesystem_size) * 100 < 10 #Expression to detect file system almost full
         for: 5m
@@ -134,7 +161,16 @@ groups:
         annotations:
           summary: Blackbox probe failed (instance {{ $labels.instance }})
           description: "Probe failed\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
-          
+         
+      - alert: BlackboxSlowProbe
+        expr: avg_over_time(probe_duration_seconds[1m]) > 1
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: Blackbox slow probe (instance {{ $labels.instance }})
+          description: "Blackbox probe took more than 1s to complete\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+      
         # This rule can be very noisy in dynamic infra with legitimate container start/stop/deployment.
       - alert: ContainerKilled
         expr: time() - container_last_seen > 60
@@ -153,6 +189,16 @@ groups:
         annotations:
           summary: Container absent (instance {{ $labels.instance }})
           description: "A container is absent for 5 min\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+          
+      - alert: ContainerHighCpuUtilization
+        expr: (sum(rate(container_cpu_usage_seconds_total{container!=""}[5m])) by (pod, container) / sum(container_spec_cpu_quota{container!=""}/container_spec_cpu_period{container!=""}) by (pod, container) * 100) > 80
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: Container High CPU utilization (instance {{ $labels.instance }})
+          description: "Container CPU utilization is above 80%\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+      
       
 
 -------------------------------------------------------------------------------------------------------------------------------------------
