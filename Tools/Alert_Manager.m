@@ -142,7 +142,7 @@ groups:
           severity: warning
         annotations:
           summary: Host out of inodes (instance {{ $labels.instance }})
-          description: "Disk is almost running out of available inodes (< 10% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}
+          description: "Disk is almost running out of available inodes (< 10% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
       
       - alert: FileSystemFull
         expr: (node_filesystem_avail / node_filesystem_size) * 100 < 10 #Expression to detect file system almost full
