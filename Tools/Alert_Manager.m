@@ -116,7 +116,7 @@ groups:
         annotations:
           summary: "High Memory Usage (instance {{ $labels.instance }})"
           description: "Memory usage is > 90%\n VALUE = {{ $value }}\n LABELS: {{ $labels }}"
-
+          
       - alert: HostMemoryUnderMemoryPressure
         expr: (rate(node_vmstat_pgmajfault[1m]) > 1000) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}
         for: 2m
@@ -134,7 +134,7 @@ groups:
         annotations:
           summary: Host CPU high iowait (instance {{ $labels.instance }})
           description: "CPU iowait > 10%. A high iowait means that you are disk or network bound.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
-     
+          
       - alert: HostOutOfInodes
         expr: (node_filesystem_files_free{fstype!="msdosfs"} / node_filesystem_files{fstype!="msdosfs"} * 100 < 10 and ON (instance, device, mountpoint) node_filesystem_readonly == 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}
         for: 2m
@@ -203,7 +203,7 @@ groups:
 
 -------------------------------------------------------------------------------------------------------------------------------------------
 
-# Then edit the prometheus.yml file
+# Then   edit the prometheus.yml file
 
 vi prometheus.yml -> 1. In this file, under the "rules_file" section edit the content written below the "rules_file" section with "alert_rules.yaml"
                      2. Uncomment the thing written under the "alerting -> targets" as " - <monitoring-IP>:9093 "
