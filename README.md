@@ -18,3 +18,7 @@ cat config
 
 # Then, Copy the config file to Jenkins master or the local file manager and save it
 # Then, goto manage Jenkins –> manage credentials –> Click on Jenkins global –> add credentials
+
+
+
+kubectl port-forward service/notes-app-service 8000:80 --address=0.0.0.0 -n notes-app
