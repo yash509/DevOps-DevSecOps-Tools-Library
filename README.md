@@ -21,6 +21,6 @@ cat config
 
 
 
-# kubectl port-forward service/notes-app-service 8000:80 --address=0.0.0.0 -n notes-app 
-                                    |               |                             |
-                              (service name)      (port)                   (namespace name)
+kubectl port-forward service/notes-app-service 8000:80 --address=0.0.0.0 -n notes-app 
+                                  |               |                             |
+                            (service name)      (port)                   (namespace name)
