@@ -19,4 +19,4 @@ vi synk.yaml
 ---
 
 after saving the above "yaml" file run the command for Intallation of Synk: 
-ansible-playbook -i localhost synk.yml
+ansible-playbook -i localhost synk.yaml
