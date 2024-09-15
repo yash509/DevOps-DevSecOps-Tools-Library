@@ -9,7 +9,11 @@ sudo apt install ansible -y
 sudo apt install git -y 
 mkdir Ansible && cd Ansible
 vi synk.yml
-- name: Download and install Snyk
+- name: Install DevOps Tools
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Download and install Snyk
       ansible.builtin.get_url:
         url: https://static.snyk.io/cli/latest/snyk-linux
         dest: /usr/local/bin/snyk
