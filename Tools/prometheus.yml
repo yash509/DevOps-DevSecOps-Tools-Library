@@ -36,6 +36,8 @@ scrape_configs:
         - http://app-running-ip-&-port-here # For Example:- 13.224.76.88:8080 or kubernetes port eg:- 30119 # Target to probe with http on port 8080.
         - https://www.google.com/
         - https://shivalik.darwinbox.in/
+        - https://www.youtube.com/
+        - https://www.hdfcbank.com/
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
