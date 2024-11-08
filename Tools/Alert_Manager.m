@@ -223,7 +223,7 @@ alerting:
 route:
   group_by: ['alertname']
   group_wait: 30s
-  group_interval: 5m
+  group_interval: 30s
   repeat_interval: 1h
   receiver: 'email-notifications'
 receivers:
