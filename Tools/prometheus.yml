@@ -38,6 +38,7 @@ scrape_configs:
         - https://shivalik.darwinbox.in/
         - https://www.youtube.com/
         - https://www.hdfcbank.com/
+        - http://vault-running-ip-&-port-here
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
