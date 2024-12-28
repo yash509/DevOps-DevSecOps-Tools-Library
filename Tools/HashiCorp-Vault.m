@@ -137,9 +137,7 @@ vault write auth/approle/role/cicd-role token_policies="aws-policy"
 
 5.3. Create an AppRole using the below command:
 //
-vault write auth/approle/role/cicd-role
-	token_policies="aws-policy"
-	secret_id_ttl=24h \
+vault write auth/approle/role/cicd-role token_policies="aws-policy" secret_id_ttl=24h \
     token_ttl=1h \
     token_max_ttl=4h
 //
