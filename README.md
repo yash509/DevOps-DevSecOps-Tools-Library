@@ -24,3 +24,9 @@ cat config
 kubectl port-forward service/notes-app-service 8000:80 --address=0.0.0.0 -n notes-app 
 #                                 |               |                             |
 #                           (service name)      (port)                   (namespace name)
+
+
+# Prometheus
+promtool check config /etc/prometheus/prometheus.yml
+
+curl -X POST http://localhost:9090/-/reload
