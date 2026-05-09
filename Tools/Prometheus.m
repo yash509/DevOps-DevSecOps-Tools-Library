@@ -1,5 +1,15 @@
 # Commands for Prometheus Installation
 
+# Download the latest Prometheus release (replace VERSION with current)
+wget https://github.com/prometheus/prometheus/releases/download/vVERSION/prometheus-VERSION.linux-amd64.tar.gz
+
+# Extract the tarball
+tar -xvf prometheus-VERSION.linux-amd64.tar.gz
+
+# Move into the extracted directory
+cd prometheus-VERSION.linux-amd64/
+
+
 
 sudo useradd --system --no-create-home --shell /bin/false prometheus
 
