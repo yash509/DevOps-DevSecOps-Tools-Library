@@ -1,13 +1,13 @@
 # Commands for Prometheus Installation
 
-# Download the latest Prometheus release (replace VERSION with current)
-wget https://github.com/prometheus/prometheus/releases/download/vVERSION/prometheus-VERSION.linux-amd64.tar.gz
+# Download the latest Prometheus release (Linux amd64)
+wget https://github.com/prometheus/prometheus/releases/download/v3.11.3/prometheus-3.11.3.linux-amd64.tar.gz
 
 # Extract the tarball
-tar -xvf prometheus-VERSION.linux-amd64.tar.gz
+tar -xvf prometheus-3.11.3.linux-amd64.tar.gz
 
 # Move into the extracted directory
-cd prometheus-VERSION.linux-amd64/
+cd prometheus-3.11.3.linux-amd64/
 
 
 
