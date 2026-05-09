@@ -8,3 +8,21 @@ sudo add-apt-repository --yes --update ppa:ansible/ansible
 sudo apt install ansible -y
 sudo apt install git -y 
 
+
+
+
+---- New 2026
+
+exec > >(tee -i /var/log/user-data.log)
+exec 2>&1
+
+# Update system
+sudo apt update -y
+sudo apt upgrade -y
+
+# Install Ansible directly from Ubuntu repos (no PPA needed)
+sudo apt install ansible -y
+
+# Install Git
+sudo apt install git -y
+
