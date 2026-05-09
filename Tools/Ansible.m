@@ -22,6 +22,7 @@ sudo apt upgrade -y
 
 # Install Ansible directly from Ubuntu repos (no PPA needed)
 sudo apt install ansible -y
+apt install ansible-core -y
 
 # Install Git
 sudo apt install git -y
